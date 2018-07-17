@@ -1,12 +1,3 @@
-var Player = function() {
-  this.x = x;
-  this.y = y;
-  this.lives = 3;
-  this.level = 1;
-  this.move = true;
-  this.speed = 150;
-  this.sprite = 'images/char-princess-girl.png';
-}
 // Enemies our player must avoid
 var Enemy = function() {
     this.x = x;
@@ -21,6 +12,10 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    this.x = this.x + this.speed * dt;
+      if (this.x > 505) {
+        this.x = 0;
+    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -31,7 +26,44 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+var Player = function(x,y) {
+  this.x = x;
+  this.y = y;
+  this.lives = 3;
+  this.level = 1;
+  this.move = true;
+  this.height = 50;
+  this.width = 150;
+  this.speed = 150;
+  this.sprite = 'images/char-princess-girl.png';
+}
 
+Player.prototype.update = function(dt) {
+    // You should multiply any movement by the dt parameter
+    // which will ensure the game runs at the same speed for
+    // all computers.
+    if (this.x < 0 || this.x > 400) {
+       if(this.x < 0){
+           this.x = 0;
+       }
+       else{
+           this.x = 400;
+       }
+   }
+   if (this.y < 0 || this.y > 400) {
+       if(this.y < 0){
+           this.reset();
+       }
+       else{
+           this.y = 400;
+       }
+   }
+};
+
+// Draw the enemy on the screen, required method for game
+PLayer.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
