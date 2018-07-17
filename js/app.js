@@ -1,5 +1,11 @@
+var Player = function(x,y) {
+  this.x = x;
+  this.y = y;
+  this.speed = 150;
+  this.sprite = 'images/char-princess-girl.png';
+}
 // Enemies our player must avoid
-var Enemy = function(x,y) {
+var Enemy = function(x,y,speed) {
     this.x = x;
     this.y = y;
     this.speed = 150;
