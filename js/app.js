@@ -3,6 +3,8 @@ var Enemy = function() {
     this.x = x;
     this.y = y;
     this.speed = 150;
+    this.height = 70;
+    this.width = 100;
     this.sprite = 'images/enemy-bug.png';
 };
 
@@ -60,17 +62,46 @@ Player.prototype.update = function(dt) {
    }
 };
 
+Player.prototype.reset = function() {
+        this.y = 400;
+        this.x = 0;
+        console.log(this.lives);
+        if (this.lives == 0) {
+            setTimeout (function() {
+            alert('YOU LOSE!');
+            },100);
+        }
+};
+
 // Draw the enemy on the screen, required method for game
 PLayer.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+Player.prototype.handleInput = function(direction) {
+    if (direction == 'left') {
+        this.x -= 100;
+    }
+
+    if (direction == 'right') {
+        this.x += 100;
+    }
+
+    if (direction == 'up') {
+        this.y -= 83;
+    }
+
+    if (direction == 'down') {
+        this.y += 83;
+    }
+};
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
-var firstEnemy = var Enemy(0,150),
-    secondEnemy = var Enemy(0,250),
-    thirdEnemy = var Enemy(0,350),
-    allEnemies = [firstEnemy, secondEnemy, thirdEnemy];
+var firstEnemy = var Enemy(150,150);
+var secondEnemy = var Enemy(80,250);
+var thirdEnemy = var Enemy(200,350);
+var allEnemies = [firstEnemy, secondEnemy, thirdEnemy];
 // Place the player object in a variable called player
 var player = new Player(0,450);
 
