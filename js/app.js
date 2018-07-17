@@ -1,11 +1,14 @@
-var Player = function(x,y) {
+var Player = function() {
   this.x = x;
   this.y = y;
+  this.lives = 3;
+  this.level = 1;
+  this.move = true;
   this.speed = 150;
   this.sprite = 'images/char-princess-girl.png';
 }
 // Enemies our player must avoid
-var Enemy = function(x,y,speed) {
+var Enemy = function() {
     this.x = x;
     this.y = y;
     this.speed = 150;
@@ -32,8 +35,12 @@ Enemy.prototype.render = function() {
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
+var firstEnemy = var Enemy(0,150),
+    secondEnemy = var Enemy(0,250),
+    thirdEnemy = var Enemy(0,350),
+    allEnemies = [firstEnemy, secondEnemy, thirdEnemy];
 // Place the player object in a variable called player
-
+var player = new Player(0,450);
 
 
 // This listens for key presses and sends the keys to your
