@@ -1,5 +1,5 @@
 // Enemies our player must avoid
-var Enemy = function() {
+var Enemy = function(x,y) {
     this.x = x;
     this.y = y;
     this.speed = 150;
@@ -32,10 +32,8 @@ var Player = function(x,y) {
   this.x = x;
   this.y = y;
   this.lives = 3;
-  this.level = 1;
-  this.move = true;
   this.height = 50;
-  this.width = 150;
+  this.width = 30;
   this.speed = 150;
   this.sprite = 'images/char-princess-girl.png';
 }
@@ -45,37 +43,50 @@ Player.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     if (this.x < 0 || this.x > 400) {
-       if(this.x < 0){
-           this.x = 0;
-       }
-       else{
-           this.x = 400;
-       }
-   }
-   if (this.y < 0 || this.y > 400) {
-       if(this.y < 0){
-           this.reset();
-       }
-       else{
-           this.y = 400;
-       }
-   }
+    if(this.x < 0){
+        this.x = 0;
+    }
+    else{
+        this.x = 400;
+    }
+}
+if (this.y < 0 || this.y > 400) {
+    if(this.y < 0){
+        this.lives--;
+        this.reset();
+    }
+    else{
+        this.y = 400;
+    }
+}
+this.checkCollisions();
 };
 
 Player.prototype.reset = function() {
         this.y = 400;
         this.x = 0;
-        console.log(this.lives);
         if (this.lives == 0) {
             setTimeout (function() {
-            alert('YOU LOSE!');
+            alert(':( You lost!');
             },100);
         }
 };
 
-// Draw the enemy on the screen, required method for game
-PLayer.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+//When a collision occurs a live is substracted
+Player.prototype.checkCollisions = function() {
+
+    for (var i = 0; i < allEnemies.length; i++) {
+        if ((this.x < allEnemies[i].x + allEnemies[i].width) && (this.x + this.width > allEnemies[i].x) && (this.y < allEnemies[i].y + allEnemies[i].height) && (this.height + this.y > allEnemies[i].y)) {
+            this.lives--;
+            this.reset();
+        }
+        else if ((this.x < heart.x + heart.width) && (this.x + this.width > heart.x) && (this.y < heart.y + heart.height) && (this.height + this.y > heart.y)) {
+          setTimeout (function() {
+            alert('Congratulations, you won! :)');
+            }, 100);
+            this.reset();
+        }
+    }
 };
 
 Player.prototype.handleInput = function(direction) {
@@ -96,15 +107,37 @@ Player.prototype.handleInput = function(direction) {
     }
 };
 
+//Drows the player to the screen
+Player.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+var Heart = function(x,y) {
+    this.x = x;
+    this.y = y;
+    this.height = 25;
+    this.width = 25;
+    this.sprite = 'images/Heart.png';
+};
+
+Heart.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
-var firstEnemy = var Enemy(150,150);
-var secondEnemy = var Enemy(80,250);
-var thirdEnemy = var Enemy(200,350);
-var allEnemies = [firstEnemy, secondEnemy, thirdEnemy];
+var firstEnemy = new Enemy(10,60),
+    secondEnemy = new Enemy(60,150),
+    thirdEnemy = new Enemy(70,230),
+    allEnemies = [];
+allEnemies.push(firstEnemy);
+allEnemies.push(secondEnemy);
+allEnemies.push(thirdEnemy);
 // Place the player object in a variable called player
-var player = new Player(0,450);
+var player = new Player(0,400);
 
+var heart = new Heart(400,0);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

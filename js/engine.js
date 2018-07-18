@@ -78,7 +78,7 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        //checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -173,7 +173,8 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-boy.png' ,
-        'images/char-princess-girl.png'
+        'images/char-princess-girl.png' ,
+        'images/Heart.png'
     ]);
     Resources.onReady(init);
 
